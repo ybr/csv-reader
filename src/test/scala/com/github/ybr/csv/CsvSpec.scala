@@ -169,4 +169,23 @@ object CsvSpec extends Properties("CSV") {
         errorB.message == "error.expected.long" && errorB.args("index") == 1
     }
   }
+
+  property("Collect successes from a list of CSV results") = forAll { (as: Seq[(Int, Double)]) =>
+    val lines: Seq[Seq[String]] = as.flatMap { case (a, b) => Seq(Seq(a.toString, b.toString), Seq("failed", "0")) }
+    val results = lines.map(CSV.read[(Int, Double)])
+
+    val successes = results.collect(CsvSuccess.partial)
+
+    results.length == 2 * as.length &&
+    successes.length == as.length
+  }
+
+  property("Collected successes shall always be less or equal than the count of results") = forAll { (as: Seq[(String, String)]) =>
+    val lines: Seq[Seq[String]] = as.map { case (a, b) => Seq(a, b) }
+    val results = lines.map(CSV.read[(Int, Double)])
+
+    val successes = results.collect(CsvSuccess.partial)
+
+    successes.length <= results.length
+  }
 }
