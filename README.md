@@ -100,7 +100,7 @@ case class TV(model: String, dimension: String)
 
 implicit val tvCsvReader = (
   col(2).as[String] |@|
-  (col(0).as[Int] tuple col(1).as[Int] map { case (height, width) => s"${height}x${width}" })
+  (col(0).name("height").as[Int] |@| col(1).name("width").as[Int])(_ + "x" + _)
 )(TV)
 
 scala> CSV.read[TV](Seq("160", "140", "Samsung TV"))
