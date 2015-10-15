@@ -1,4 +1,4 @@
-package ybr.csv
+package com.github.ybr.csv
 
 import org.scalacheck.Properties
 import org.scalacheck.Prop.forAll
@@ -10,7 +10,7 @@ object CsvSpec extends Properties("CSV") {
   property("Yield a user with CSV.reader[User]") = forAll { (userId: Long, name: String, age: Int) =>
     implicit val userCsvReader = CSV.reader[User]
 
-    val line = immutable.Seq(userId.toString, name, age.toString)
+    val line = Seq(userId.toString, name, age.toString)
     CSV.read[User](line) match {
       case CsvSuccess(user) => user.id == userId && user.name == name
       case error => false
@@ -20,17 +20,17 @@ object CsvSpec extends Properties("CSV") {
   property("Yield one error over id with CSV.reader[User] on id") = forAll { (userId: Long, name: String, age: Int) =>
     implicit val userCsvReader = CSV.reader[User]
 
-    val line = immutable.Seq(userId.toString + "a", name, age.toString)
+    val line = Seq(userId.toString + "a", name, age.toString)
     CSV.read[User](line) match {
       case CsvSuccess(user) => false
-      case CsvError(immutable.Seq(ColumnError("error.expected.long", arguments))) => arguments("index") == 0 && arguments("name") == "id"
+      case CsvError(Seq(ColumnError("error.expected.long", arguments))) => arguments("index") == 0 && arguments("name") == "id"
     }
   }
 
   property("Yield two errors over id and age with CSV.reader[User] on id") = forAll { (userId: Long, name: String, age: Int) =>
     implicit val userCsvReader = CSV.reader[User]
 
-    val line = immutable.Seq(userId.toString + "a", name, age.toString + "years")
+    val line = Seq(userId.toString + "a", name, age.toString + "years")
     CSV.read[User](line) match {
       case CsvSuccess(user) => false
       case CsvError(errors) =>
@@ -45,10 +45,10 @@ object CsvSpec extends Properties("CSV") {
   property("Yield a user with CSV.reader[User] on id") = forAll { (userId: Long, name: String, age: Int) =>
     implicit val userCsvReader = CSV.reader[User]
 
-    val line = immutable.Seq(userId.toString + "a", name, age.toString)
+    val line = Seq(userId.toString + "a", name, age.toString)
     CSV.read[User](line) match {
       case CsvSuccess(user) => false
-      case CsvError(immutable.Seq(ColumnError("error.expected.long", arguments))) => arguments("index") == 0 && arguments("name") == "id"
+      case CsvError(Seq(ColumnError("error.expected.long", arguments))) => arguments("index") == 0 && arguments("name") == "id"
     }
   }
 
@@ -58,10 +58,10 @@ object CsvSpec extends Properties("CSV") {
                                   col(1).as[String] <*>
                                   col(2).as[Int]
 
-    val line = immutable.Seq(userId.toString, name, age.toString + "years")
+    val line = Seq(userId.toString, name, age.toString + "years")
     CSV.read[User](line) match {
       case CsvSuccess(_) => false
-      case CsvError(immutable.Seq(ColumnError("error.expected.int", arguments))) => arguments("index") == 2
+      case CsvError(Seq(ColumnError("error.expected.int", arguments))) => arguments("index") == 2
     }
   }
 
@@ -71,7 +71,7 @@ object CsvSpec extends Properties("CSV") {
                                   col(1).as[String] <*>
                                   col(2).as[Int]
 
-    val line = immutable.Seq(userId.toString + "a", name, age.toString + "years")
+    val line = Seq(userId.toString + "a", name, age.toString + "years")
     CSV.read[User](line) match {
       case CsvSuccess(_) => false
       case CsvError(errors) =>
@@ -85,7 +85,7 @@ object CsvSpec extends Properties("CSV") {
 
   property("Yield a user with applicative |@|") = forAll { (userId: Long, name: String, age: Int) =>
     import scalaz.Scalaz._
-    import ybr.csv.CsvReaderMonadImplicit._
+    import com.github.ybr.csv.CsvReaderMonadImplicit._
 
     implicit val userCsvReader = (
       col(0).as[Long]   |@|
@@ -93,7 +93,7 @@ object CsvSpec extends Properties("CSV") {
       col(2).as[Int]
     )(User.apply)
 
-    val line = immutable.Seq(userId.toString, name, age.toString)
+    val line = Seq(userId.toString, name, age.toString)
     CSV.read[User](line) match {
       case CsvSuccess(user) => user.id == userId && user.name == name
       case error => false
@@ -102,7 +102,7 @@ object CsvSpec extends Properties("CSV") {
 
   property("Yield one error over age with applicative |@|") = forAll { (userId: Long, name: String, age: Int) =>
     import scalaz.Scalaz._
-    import ybr.csv.CsvReaderMonadImplicit._
+    import com.github.ybr.csv.CsvReaderMonadImplicit._
 
     implicit val userCsvReader = (
       col(0).as[Long]   |@|
@@ -110,16 +110,16 @@ object CsvSpec extends Properties("CSV") {
       col(2).name("age").as[Int]
     )(User.apply)
 
-    val line = immutable.Seq(userId.toString, name, age.toString + "years")
+    val line = Seq(userId.toString, name, age.toString + "years")
     CSV.read[User](line) match {
       case CsvSuccess(_) => false
-      case CsvError(immutable.Seq(ColumnError("error.expected.int", arguments))) => arguments("index") == 2 && arguments("name") == "age"
+      case CsvError(Seq(ColumnError("error.expected.int", arguments))) => arguments("index") == 2 && arguments("name") == "age"
     }
   }
 
   property("Yield two errors over id and age with applicative |@|") = forAll { (userId: Long, name: String, age: Int) =>
     import scalaz.Scalaz._
-    import ybr.csv.CsvReaderMonadImplicit._
+    import com.github.ybr.csv.CsvReaderMonadImplicit._
 
     implicit val userCsvReader = (
       col(0).name("id").as[Long]   |@|
@@ -127,7 +127,7 @@ object CsvSpec extends Properties("CSV") {
       col(2).as[Int]
     )(User.apply)
 
-    val line = immutable.Seq(userId.toString + "a", name, age.toString + "years")
+    val line = Seq(userId.toString + "a", name, age.toString + "years")
     CSV.read[User](line) match {
       case CsvSuccess(_) => false
       case CsvError(errors) =>
@@ -136,6 +136,37 @@ object CsvSpec extends Properties("CSV") {
         errors.length == 2 &&
         idError.message == "error.expected.long" && idError.args("index") == 0 && idError.args("name") == "id"
         ageError.message == "error.expected.int" && ageError.args("index") == 2
+    }
+  }
+
+  property("Yield a tuple2 with CSV.read[(A, B)]") = forAll { (a: Int, b: Long) =>
+    val line = Seq(a.toString, b.toString)
+    CSV.read[(Int, Long)](line) match {
+      case CsvSuccess(t2) => t2._1 == a && t2._2 == b
+      case error => false
+    }
+  }
+
+  property("Yield one error with CSV.read[(A, B)]") = forAll { (a: Int, b: Long) =>
+    val line = Seq(a.toString + "years", b.toString)
+    CSV.read[(Int, Long)](line) match {
+      case CsvSuccess(_) => false
+      case CsvError(errors) =>
+        errors.length == 1 &&
+        errors(0).message == "error.expected.int" && errors(0).args("index") == 0
+    }
+  }
+
+  property("Yield two errors with CSV.read[(A, B)]") = forAll { (a: Int, b: Long) =>
+    val line = Seq(a.toString + "years", b.toString + "m")
+    CSV.read[(Int, Long)](line) match {
+      case CsvSuccess(_) => false
+      case CsvError(errors) =>
+        val errorA = errors(0)
+        val errorB = errors(1)
+        errors.length == 2 &&
+        errorA.message == "error.expected.int" && errorA.args("index") == 0 &&
+        errorB.message == "error.expected.long" && errorB.args("index") == 1
     }
   }
 }

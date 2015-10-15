@@ -1,4 +1,4 @@
-package ybr
+package com.github.ybr
 
 /**
  * CSV API
@@ -26,7 +26,8 @@ package ybr
  * }}}
  */
 package object csv extends CsvReaderApplicativeSyntax
-                      with DefaultCsvColumnReaders {
+                      with DefaultCsvColumnReadersImplicits
+                      with DefaultCsvReadersImplicits {
 
   val col = ColumnIndex.col _
 }

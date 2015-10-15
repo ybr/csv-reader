@@ -1,7 +1,6 @@
-package ybr.csv
+package com.github.ybr.csv
 
 import language.experimental.macros
-import scala.collection.immutable
 
 object CSV {
   /**
@@ -9,7 +8,7 @@ object CSV {
    *
    * @param csv Seq[String] value to transform as an instance of A.
    */
-  def read[A](csv: immutable.Seq[String])(implicit reader: CsvReader[A]): CsvResult[A] = reader.read(csv)
+  def read[A](csv: Seq[String])(implicit reader: CsvReader[A]): CsvResult[A] = reader.read(csv)
 
   /**
    * Creates a CsvReader[T] by resolving case class fields & required implicits at COMPILE-time.

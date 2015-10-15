@@ -1,4 +1,4 @@
-package ybr.csv
+package com.github.ybr.csv
 
 import scala.annotation.implicitNotFound
 

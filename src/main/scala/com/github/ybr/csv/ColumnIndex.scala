@@ -1,13 +1,11 @@
-package ybr.csv
-
-import scala.collection.immutable
+package com.github.ybr.csv
 
 /**
  * Column with an index and possibly a name.
  */
 case class ColumnIndex(index: Int) extends Column { self =>
   def as[A](implicit reader: CsvColumnReader[A]) = new CsvReader[A] {
-    def read(columns: immutable.Seq[String]): CsvResult[A] = {
+    def read(columns: Seq[String]): CsvResult[A] = {
       // out of bounds
       if(columns.size <= index || index < 0) CsvError("error.column.missing", ("index" -> index))
       else {
@@ -23,7 +21,7 @@ case class ColumnIndex(index: Int) extends Column { self =>
   // supplement this column with a name
   def name(columnName: String): Column = new Column {
     override def as[A](implicit reader: CsvColumnReader[A]) = new CsvReader[A] {
-      def read(columns: immutable.Seq[String]): CsvResult[A] = self.as(reader).read(columns) match {
+      def read(columns: Seq[String]): CsvResult[A] = self.as(reader).read(columns) match {
         case CsvError(errors) => CsvError(errors.map(error => error.copy(args = error.args + ("name" -> columnName))))
         case error => error
       }

@@ -1,4 +1,4 @@
-package ybr.csv
+package com.github.ybr.csv
 
 import scala.reflect.macros.whitebox.Context
 import scala.annotation.StaticAnnotation
@@ -28,7 +28,7 @@ object CsvMacroImpl {
                   }
 
     c.Expr[CsvReader[A]](q"""
-      import ybr.csv._
+      import com.github.ybr.csv._
       ${csvReader}
     """)
   }

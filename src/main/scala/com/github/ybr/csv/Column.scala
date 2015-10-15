@@ -1,4 +1,4 @@
-package ybr.csv
+package com.github.ybr.csv
 
 /**
  * Column bridges a column to a line of CSV.
