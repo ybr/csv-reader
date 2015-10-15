@@ -50,6 +50,7 @@ or a CsvError with all the reasons why the line does not conform to the recipe.
 
 ```bash
 import com.github.ybr.csv._
+
 case class User(name: String, age: Int, height: Long)
 
 implicit val userCsvReader = CSV.reader[User]
@@ -64,6 +65,7 @@ Oops my height is right but the User.height shall be a Long, let's rewrite that 
 
 ```bash
 import com.github.ybr.csv._
+
 case class User(name: String, age: Int, height: Float)
 
 implicit val userCsvReader = CSV.reader[User]
@@ -79,11 +81,11 @@ CSV.reader[A] allows you to automatically create a CsvReader[A] without being cl
 
 ## Custom reader
 
-In the case the provided tuple and case class readers is not enough.
+In the case the provided tuple and case class readers are not enough.
 You can create your own CSV readers in detail, by specifying the index and name of a column and arranging the order of readers,
 ignoring some columns and combining others.
 
-CsvReaders can be transformed with map and combined with one anouther thanks to flatMap, CsvReader is a Monad.
+CsvReaders can be transformed with map and combined with one another thanks to flatMap, CsvReader is a Monad.
 CsvReader is an Applicative too which let us state that we want errors to be accumulated whereas the Monad would
 stop on the first error it encounters.
 
@@ -93,11 +95,12 @@ stop on the first error it encounters.
 import com.github.ybr.csv._
 import com.github.ybr.csv.CsvReaderMonadImplicit._
 import scalaz.Scalaz._
+
 case class TV(model: String, dimension: String)
 
 implicit val tvCsvReader = (
   col(2).as[String] |@|
-  col(0).as[Int].flatMap(height => col(1).as[Int].map(width => s"${height}x${width}"))
+  (col(0).as[Int] tuple col(1).as[Int] map { case (height, width) => s"${height}x${width}" })
 )(TV)
 
 scala> CSV.read[TV](Seq("160", "140", "Samsung TV"))
@@ -113,13 +116,14 @@ Otherwise you can use the applicative operator <*>, it is like the applicative b
 
 ```scala
 import com.github.ybr.csv._
-<!-- import com.github.ybr.csv.CsvReaderApplicativeSyntax._ -->
+
 case class TV(model: String, dimension: String)
 
-:paste
-implicit val tvCsvReader = CsvReader(TV.apply _ curried) <*>
-                            col(2).as[String] <*>
-                            col(0).as[Int].flatMap(height => col(1).as[Int].map(width => s"${height}x${width}"))
+implicit val tvCsvReader = {
+  CsvReader(TV.apply _ curried) <*>
+    col(2).as[String] <*>
+    col(0).as[Int].flatMap(height => col(1).as[Int].map(width => s"${height}x${width}"))
+}
 
 scala> CSV.read[TV](Seq("160", "140", "Samsung TV"))
 com.github.ybr.csv.CsvResult[TV] = CsvSuccess(TV(Samsung TV,160x140))
