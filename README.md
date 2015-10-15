@@ -48,7 +48,7 @@ or a CsvError with all the reasons why the line does not conform to the recipe.
 
 ## Read case class
 
-```bash
+```scala
 import com.github.ybr.csv._
 
 case class User(name: String, age: Int, height: Long)
@@ -63,7 +63,7 @@ com.github.ybr.csv.CsvResult[User] = CsvError(List(ColumnError(error.expected.lo
 
 Oops my height is right but the User.height shall be a Long, let's rewrite that case class.
 
-```bash
+```scala
 import com.github.ybr.csv._
 
 case class User(name: String, age: Int, height: Float)
@@ -91,7 +91,7 @@ stop on the first error it encounters.
 
 ### Applicative builder
 
-```bash
+```scala
 import com.github.ybr.csv._
 import com.github.ybr.csv.CsvReaderMonadImplicit._
 import scalaz.Scalaz._
