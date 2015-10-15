@@ -23,7 +23,7 @@ object CSV {
    *   // macro-compiler replaces CSV.reader[User] by injecting into compile chain
    *   // the exact code you would write yourself. This is strictly equivalent to:
    *   implicit val userCsvReader = {
-   *    import ybr.csv._
+   *    import com.github.ybr.csv._
    *    CsvReader(User.apply _ curried) <*>
    *      col(0).name("name").as[String] <*>
    *      col(1).name("name").as[Int]

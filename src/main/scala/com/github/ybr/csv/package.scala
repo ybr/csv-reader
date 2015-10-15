@@ -5,8 +5,8 @@ package com.github.ybr
  * For example:
  * {{{
  * import scalaz.Scalaz._
- * import ybr.csv._
- * import ybr.csv.CsvReaderMonadImplicit._
+ * import com.github.ybr.csv._
+ * import com.github.ybr.csv.CsvReaderMonadImplicit._
  * 
  * case class User(id: Long, name: String)
  * object User {
