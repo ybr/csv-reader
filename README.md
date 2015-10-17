@@ -6,6 +6,8 @@ It provides a purely functional and type safe mean of reading CSV. You write CSV
 
 This is still an alpha version.
 
+[![Build Status](https://travis-ci.org/ybr/csv-reader.svg?branch=develop)](https://travis-ci.org/ybr/csv-reader)
+
 ## Getting csv-reader
 
 If you are using SBT, add the following line to your build file (Build.scala):
