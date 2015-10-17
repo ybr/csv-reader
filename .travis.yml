@@ -2,8 +2,20 @@ language: scala
 scala:
   - 2.11.7
 jdk:
-  - oraclejdk7
+  - oraclejdk8
   - openjdk7
+script:
+  - sbt test doc
+addons:
+  artifacts:
+    s3_region: eu-west-1
+    paths:
+    - $TRAVIS_BUILD_DIR/target/scala-2.11/api
+services: []
+# branches:
+#   only:
+#     - master
+#     - develop
 notifications:
   email:
     - yohann.bredoux@gmail.com
