@@ -118,7 +118,7 @@ We specify that we want to combine column 0 and 1 into a single value so if one 
 
 ### Applicative syntax
 
-Otherwise you can use the applicative operator <*>, it is like the applicative builder without suffering the tuple 22 limit.
+Otherwise you can use the applicative operator `<*>`, it is like the applicative builder without suffering the tuple 22 limit.
 
 ```scala
 import com.github.ybr.csv._
