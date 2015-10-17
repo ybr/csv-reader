@@ -18,6 +18,10 @@ lazy val csvreader = RootProject(uri("git@github.com:ybr/csv-reader.git#develop"
 
 and add a dependsOn(csvreader) to the project depending on csv-reader.
 
+## Documentation
+
+[CSV reader scaladoc](https://s3-eu-west-1.amazonaws.com/csvreader.ybr/api/nightly/index.html#com.github.ybr.csv.package)
+
 ## Quick start
 
 In the Scala REPL:
