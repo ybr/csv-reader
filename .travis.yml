@@ -6,12 +6,19 @@ jdk:
   - openjdk7
 script:
   - sbt test doc
-addons:
-  artifacts:
-    s3_region: eu-west-1
-    paths:
-    - $TRAVIS_BUILD_DIR/target/scala-2.11/api
 services: []
+deploy:
+  provider: s3
+  region: eu-west-1
+  access_key_id: $ARTIFACTS_KEY
+  secret_access_key: $ARTIFACTS_SECRET
+  bucket: $ARTIFACTS_BUCKET
+  skip_cleanup: true
+  local_dir: $TRAVIS_BUILD_DIR/target/scala-2.11/api
+  upload-dir: api/nightly
+  on:
+    branch: develop
+
 # branches:
 #   only:
 #     - master
