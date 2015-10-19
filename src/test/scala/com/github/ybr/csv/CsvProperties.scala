@@ -3,7 +3,7 @@ package com.github.ybr.csv
 import org.scalacheck.Properties
 import org.scalacheck.Prop.forAll
 
-object CsvSpec extends Properties("CSV") {
+object CsvProperties extends Properties("CSV") {
   case class User(id: Long, name: String, age: Int)
 
   property("Yield a user with CSV.reader[User]") = forAll { (userId: Long, name: String, age: Int) =>
