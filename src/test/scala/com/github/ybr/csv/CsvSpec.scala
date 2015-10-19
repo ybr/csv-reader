@@ -2,7 +2,6 @@ package com.github.ybr.csv
 
 import org.scalacheck.Properties
 import org.scalacheck.Prop.forAll
-import scala.collection.immutable
 
 object CsvSpec extends Properties("CSV") {
   case class User(id: Long, name: String, age: Int)
