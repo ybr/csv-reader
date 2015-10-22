@@ -2,7 +2,7 @@
 
 CSV reader library for Scala.
 
-It provides a purely functional and type safe mean of reading CSV. You write CSV recipe by focusing on composing readers not the boilerplate of dealing with errors at every step.
+It provides a purely functional and type safe mean of reading CSV. Write CSV recipe by focusing on composing readers not the boilerplate of dealing with errors at every step.
 
 This is still an alpha version.
 
@@ -36,7 +36,7 @@ name: String = ybr
 age: Int = 35
 ```
 
-You get the name and age with the expected types and values.
+We get the name and age with the expected types and values.
 
 ```scala
 import com.github.ybr.csv._
@@ -82,14 +82,13 @@ scala> CSV.read[User](line)
 com.github.ybr.csv.CsvResult[User] = CsvSuccess(User(ybr,35,1.75))
 ```
 
-Good, the user has been created correctly. We just changed the type in the case class and this was seamlessly propagated to the CSV.read.
-CSV.reader[A] allows you to automatically create a CsvReader[A] without being cluttered by the details.
+Good, the user has been created correctly. We just changed the type in the case class and this was seamlessly propagated to CSV.read.
+CSV.reader[A] allows us to automatically create a CsvReader[A] without being cluttered by details.
 
 ## Custom reader
 
-In the case the provided tuple and case class readers are not enough.
-You can create your own CSV readers in detail, by specifying the index and name of a column and arranging the order of readers,
-ignoring some columns and combining others.
+In case the provided tuple and case class readers are not enough.
+We can create our own CSV readers, by specifying the index and name of a column and arranging the order of readers, ignoring some columns and combining others.
 
 CsvReaders can be transformed with map and combined with one another thanks to flatMap, CsvReader is a Monad.
 CsvReader is an Applicative too which let us state that we want errors to be accumulated whereas the Monad would
@@ -114,11 +113,11 @@ com.github.ybr.csv.CsvResult[TV] = CsvSuccess(TV(Samsung TV,160x140))
 ```
 
 Applicative builder |@| from scalaz is helpful to express a CSV reader for the TV type.
-We specify that we want to combine column 0 and 1 into a single value so if one fails then both fail and we are interested by errors from both column 2 and 0,1.
+We specify that we want to combine column 0 and 1 into a single value so if one fails then the overall fails and we are interested by errors from both column 2 and 0,1.
 
 ### Applicative syntax
 
-Otherwise you can use the applicative operator `<*>`, it is like the applicative builder without suffering the tuple 22 limit.
+Otherwise we can use the applicative operator `<*>`, it is like the applicative builder without suffering the tuple 22 limit.
 
 ```scala
 import com.github.ybr.csv._
