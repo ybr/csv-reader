@@ -42,8 +42,8 @@ publishTo <<= version { (v: String) =>
 
 credentials += Credentials("Sonatype Nexus Repository Manager",
                             "oss.sonatype.org",
-                            sys.props("sonatype.user"),
-                            sys.props("sonatype.pass"))
+                            System.getenv.get("SONATYPE_USER"),
+                            System.getenv.get("SONATYPE_PASS"))
 
 pomExtra := (
   <url>https://github.com/ybr/csv-reader</url>
