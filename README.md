@@ -10,13 +10,17 @@ This is still an alpha version.
 
 ## Getting csv-reader
 
-If you are using SBT, add the following line to your build file (Build.scala):
+If you are using SBT, add the following line to your build file:
 
-```scala
-lazy val csvreader = RootProject(uri("git@github.com:ybr/csv-reader.git#develop"))
+```sbt
+libraryDependencies += "com.github.ybr" %% "csv-reader" % "0.1-SNAPSHOT"
 ```
 
-and add a dependsOn(csvreader) to the project depending on csv-reader.
+additionally you must add the snapshot repository
+
+```sbt
+resolvers += "Sonatype Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+```
 
 ## Documentation
 

@@ -4,9 +4,10 @@ scala:
 jdk:
   - openjdk7
 script:
-  - sbt test doc
+  - sbt test doc publish
 services: []
 deploy:
+  # upload documentation to a S3 bucket
   provider: s3
   region: eu-west-1
   access_key_id: $ARTIFACTS_KEY
