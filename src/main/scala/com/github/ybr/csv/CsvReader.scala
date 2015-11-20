@@ -13,7 +13,7 @@ import scala.annotation.implicitNotFound
 @implicitNotFound(
   "No CSV reader found for type ${A}. Try to implement an implicit CsvReader for this type."
 )
-trait CsvReader[A] { self =>
+trait CsvReader[+A] { self =>
   /**
    * Convert a line of CSV into an A
    */
@@ -43,6 +43,18 @@ trait CsvReader[A] { self =>
   }
 
   /*
+   * Make this CsvReader[A] a CsvReader[Option[A]]
+   * In case this CsvReader[A] reads successfully then the result would be a successful read of Some(a)
+   * otherwise the result would be a successful read of None.
+   */
+  def ? = new CsvReader[Option[A]] {
+    def read(columns: Seq[String]): CsvResult[Option[A]] = self.read(columns) match {
+      case CsvSuccess(a) => CsvSuccess(Some(a))
+      case CsvError(_) => CsvSuccess(None)
+    }
+  }
+
+  /*
    * Returns this CsvReader if it is in success and applying the predicate p to this CsvReader's value returns true. Otherwise, return a CsvReader in error.
    */
   def filter(p: A => Boolean) = new CsvReader[A] {
@@ -52,6 +64,14 @@ trait CsvReader[A] { self =>
         else CsvError("error.filtered", "message" -> s"The result has been filtered, it was previously ${a}")
       case error => error
     }
+  }
+
+  /*
+   * Shifts this reader on the left.
+   * "col(1).as[String] << 1" is equivalent to "col(0).as[String]"
+   */
+  def <<(shift: Int) = new CsvReader[A] {
+    def read(columns: Seq[String]): CsvResult[A] = self.read(columns.view.drop(shift).drop(shift))
   }
 }
 
