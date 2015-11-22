@@ -4,6 +4,7 @@ scala:
 jdk:
   - openjdk7
 script:
+  - gem install mime-types
   - sbt test doc publish
 services: []
 deploy:
