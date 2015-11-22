@@ -10,10 +10,8 @@ import scala.annotation.implicitNotFound
  *
  * Write an implicit to define a CSV reader for a line of CSV for any type.
  */
-@implicitNotFound(
-  "No CSV reader found for type ${A}. Try to implement an implicit CsvReader for this type."
-)
-trait CsvReader[+A] { self =>
+@implicitNotFound("No CSV reader found for type ${A}. Try to implement an implicit CsvReader[${A}] for this type.")
+trait CsvReader[A] { self =>
   /**
    * Convert a line of CSV into an A
    */
