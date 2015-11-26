@@ -17,6 +17,9 @@ object CsvSuccess {
 }
 
 object CsvError {
+  /**
+   * Simple factory to create a ColumnError.
+   */
   def apply(message: String, args: (String, Any)*): CsvError = CsvError(Seq(ColumnError(message, Map(args: _*))))
 }
 

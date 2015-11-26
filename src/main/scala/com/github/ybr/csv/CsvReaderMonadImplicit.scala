@@ -13,7 +13,7 @@ package object CsvReaderMonadImplicit {
 
     override def map[A, B](fa: CsvReader[A])(f: A => B): CsvReader[B] = fa.map(f)
 
-    /*
+    /**
      * Provides expected Applicative behaviour to this Monad, appends CsvErrors.
      */
     override def ap[A, B](fa: => CsvReader[A])(f: => CsvReader[A => B]): CsvReader[B] = fa.ap(f)

@@ -18,7 +18,9 @@ case class ColumnIndex(index: Int) extends Column { self =>
     }
   }
 
-  // supplement this column with a name
+  /**
+   * Supplement this column with a name
+   */
   def name(columnName: String): Column = new Column {
     def as[A](implicit reader: CsvColumnReader[A]) = new CsvReader[A] {
       def read(columns: Seq[String]): CsvResult[A] = self.as(reader).read(columns) match {

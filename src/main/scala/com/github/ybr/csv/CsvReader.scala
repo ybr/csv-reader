@@ -40,7 +40,7 @@ trait CsvReader[A] { self =>
     }
   }
 
-  /*
+  /**
    * Make this CsvReader[A] a CsvReader[Option[A]]
    * In case this CsvReader[A] reads successfully then the result would be a successful read of Some(a)
    * otherwise the result would be a successful read of None.
@@ -52,7 +52,7 @@ trait CsvReader[A] { self =>
     }
   }
 
-  /*
+  /**
    * Returns this CsvReader if it is in success and applying the predicate p to this CsvReader's value returns true. Otherwise, return a CsvReader in error.
    */
   def filter(p: A => Boolean) = new CsvReader[A] {
@@ -64,7 +64,7 @@ trait CsvReader[A] { self =>
     }
   }
 
-  /*
+  /**
    * Shifts this reader on the left.
    * "col(1).as[String] << 1" is equivalent to "col(0).as[String]"
    */
@@ -74,14 +74,14 @@ trait CsvReader[A] { self =>
 }
 
 object CsvReader {
-  /*
+  /**
    * Creates a CsvReader that always succeeds with the given value.
    */
   def apply[A](a: A) = new CsvReader[A] {
     def read(columns: Seq[String]): CsvResult[A] = CsvSuccess(a)
   }
 
-  /*
+  /**
    * Creates a CsvReader that always fails with the given error message and arguments
    */
   def failed(msg: String, args: (String, Any)*) = new CsvReader[Nothing] {

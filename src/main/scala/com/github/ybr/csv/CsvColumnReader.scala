@@ -28,7 +28,7 @@ trait CsvColumnReader[A] { self =>
     }
   }
 
-  /*
+  /**
    * Returns this CsvReader if it is in success and applying the predicate p to this CsvReader's value returns true. Otherwise, return a CsvReader in error.
    */
   def filter(p: A => Boolean) = new CsvColumnReader[A] {
@@ -42,21 +42,21 @@ trait CsvColumnReader[A] { self =>
 }
 
 object CsvColumnReader {
-  /*
+  /**
    * Creates a CsvColumnReader that always result in a success of the provided A.
    */
 	def apply[A](a: A): CsvColumnReader[A] = new CsvColumnReader[A] {
 		def read(columnContent: String): CsvResult[A] = CsvSuccess(a)
 	}
 
-  /*
+  /**
    * Creates a CsvColumnReader that always result in a success of the function f applied to the column content.
    */
 	def apply[A](f: String => A): CsvColumnReader[A] = new CsvColumnReader[A] {
 		def read(columnContent: String): CsvResult[A] = CsvSuccess(f(columnContent))
 	}
 
-  /*
+  /**
    * Finds the implicits CsvColumnReader in context for type A.
    */
 	def of[A](implicit reader: CsvColumnReader[A]): CsvColumnReader[A] = reader

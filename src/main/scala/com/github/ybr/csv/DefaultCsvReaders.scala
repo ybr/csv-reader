@@ -1,10 +1,16 @@
 package com.github.ybr.csv
 
 object DefaultCsvReaders {
+  /**
+   * Provides you with a CsvReader for pair given two CsvColumnReader
+   */
   def tuple2[A, B](implicit readerA: CsvColumnReader[A], readerB: CsvColumnReader[B]): CsvReader[(A, B)] = {
     CsvReader(Tuple2.apply[A, B] _ curried) <*> col(0).as[A] <*> col(1).as[B]
   }
 
+  /**
+   * Provides you with a CsvReader for triplet given two CsvColumnReader
+   */
   def tuple3[A, B, C](implicit readerA: CsvColumnReader[A],
                                 readerB: CsvColumnReader[B],
                                 readerC: CsvColumnReader[C]): CsvReader[(A, B, C)] = {
