@@ -53,7 +53,7 @@ trait CsvReader[A] { self =>
   }
 
   /**
-   * Returns this CsvReader if it is in success and applying the predicate p to this CsvReader's value returns true. Otherwise, return a CsvReader in error.
+   * Creates a new CsvReader by filtering the result of the current CsvReqder with a predicate.
    */
   def filter(p: A => Boolean) = new CsvReader[A] {
     def read(columns: Seq[String]): CsvResult[A] = self.read(columns) match {
