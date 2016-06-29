@@ -65,11 +65,10 @@ trait CsvReader[A] { self =>
   }
 
   /**
-   * Shifts this reader on the left.
-   * "col(1).as[String] << 1" is equivalent to "col(0).as[String]"
+   * Allows to transform the input csv line.
    */
-  def <<(shift: Int) = new CsvReader[A] {
-    def read(columns: Seq[String]): CsvResult[A] = self.read(columns.view.drop(shift).drop(shift))
+  def transform(f: Seq[String] => Seq[String]) = new CsvReader[A] {
+    def read(columns: Seq[String]): CsvResult[A] = self.read(f(columns))
   }
 }
 
