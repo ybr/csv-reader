@@ -71,7 +71,7 @@ scala> CSV.read[User](line)
 com.github.ybr.csv.CsvResult[User] = CsvError(List(ColumnError(error.expected.long,Map(index -> 2, content -> 1.75, name -> height))))
 ```
 
-Oops my height is right but the User.height shall be a Long, let's rewrite that case class.
+Oops my height is right in the CSV but the User.height shall be a Float, let's rewrite that case class.
 
 ```scala
 import com.github.ybr.csv._
